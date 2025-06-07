@@ -1,5 +1,5 @@
 "use client";
-import ConverterUpload from "@/app/components/converter-upload";
+import ConverterUpload from "@/components/converter-upload";
 import { useState } from "react";
 
 export default function ConverterPage() {
