@@ -1,10 +1,12 @@
 "use client";
 import { useState } from "react";
 import Tab from "../converter-tab";
+import { useTranslations } from "next-intl";
 
 export default function ConverterTabs() {
   const [activeTab, setActiveTab] = useState(0);
-  const tabs = ["转换至jpg文件"];
+  const t = useTranslations("Converter");
+  const tabs = [t("tabToJpg")];
   return (
     <>
       <section className="max-w-full" aria-multiselectable="false">

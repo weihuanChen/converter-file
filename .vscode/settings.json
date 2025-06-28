@@ -1,3 +1,4 @@
+/**settings.json**/
 {
 	"editor.defaultFormatter": "biomejs.biome",
 	"[json]": {
@@ -16,5 +17,9 @@
 		"editor.insertSpaces": true,
 		"editor.tabSize": 2,
 		"editor.autoIndent": "none"
-	}
+	},
+	"i18n-ally.localesPaths": [
+		"messages",
+		"src/i18n"
+	]
 }

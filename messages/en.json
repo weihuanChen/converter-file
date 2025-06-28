@@ -1,0 +1,29 @@
+{
+	"Home": {
+		"title": "Welcome",
+		"description": "This is a demo in English"
+	},
+	"Converter": {
+		"mainTitle": "Convert WEBP to JPG files",
+		"subTitle": "Free conversion of WEBP image files to JPG format",
+		"converting": "Converting, please wait...",
+		"convertSuccess": "Conversion successful! The file has been downloaded automatically",
+		"downloadTip": "If the download did not start automatically, please",
+		"clickHere": "click here",
+		"batchTip": "Batch conversion supported, max 50MB per file",
+		"privacyTip": "Conversion is done on the server to ensure privacy and security",
+		"tabToJpg": "Convert to jpg file",
+		"errorNoFile": "Please choose a file",
+		"errorFileSize": "File size must not exceed 50MB",
+		"errorConvert": "Conversion failed",
+		"errorUpload": "Upload failed"
+	},
+	"Footer": {
+		"help": "Help Center",
+		"privacy": "Privacy Policy",
+		"terms": "Terms of Service",
+		"contact": "Contact Us",
+		"xLabel": "Official X Account",
+		"githubLabel": "GitHub Repository"
+	}
+}

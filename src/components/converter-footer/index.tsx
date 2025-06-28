@@ -1,4 +1,5 @@
 "use client";
+import { useTranslations } from "next-intl";
 import { GitHubIcon, XIcon } from "./icon";
 type SocialMediaItem = {
   name: string;
@@ -8,12 +9,13 @@ type SocialMediaItem = {
 };
 export default function ConverterFooter() {
   const currentYear = new Date().getFullYear();
+  const t = useTranslations("Footer");
   // 外链数据
   const links = [
-    { name: "帮助中心", href: "#" },
-    { name: "隐私政策", href: "#" },
-    { name: "服务条款", href: "#" },
-    { name: "联系我们", href: "#" },
+    { name: t("help"), href: "#" },
+    { name: t("privacy"), href: "#" },
+    { name: t("terms"), href: "#" },
+    { name: t("contact"), href: "#" },
   ];
   // 社媒分享
   const socialMedia: SocialMediaItem[] = [
@@ -21,13 +23,13 @@ export default function ConverterFooter() {
       name: "X",
       href: "#",
       icon: XIcon,
-      label: "X官方账号",
+      label: t("xLabel"),
     },
     {
       name: "Github",
       href: "#",
       icon: GitHubIcon,
-      label: "GitHub仓库",
+      label: t("githubLabel"),
     },
   ];
   return (
