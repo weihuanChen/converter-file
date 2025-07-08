@@ -6,11 +6,10 @@ import type { ReactNode } from "react";
 
 type Props = {
   children: ReactNode;
-  params: {
-    locale: Promise<{ locale: string }>;
-  };
+  params: Promise<{
+    locale: string;
+  }>;
 };
-export const locales = ["en", "zh"] as const;
 export default async function LocaleLayout({ children, params }: Props) {
   // 验证语言
   const { locale } = await params;

@@ -1,0 +1,64 @@
+# trunk-ignore-all(checkov/CKV2_GHA_1)
+
+name: Build and Deploy
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+        cache: 'npm'
+    
+    - name: Install dependencies
+      run: npm ci
+    
+    - name: Build application
+      run: npm run build:all
+    
+    - name: Create build artifact
+      run: |
+        mkdir -p dist
+        cp -r .next dist/
+        cp -r server/dist dist/server/
+        cp -r public dist/
+        cp -r messages dist/
+        cp package*.json dist/
+        cp next.config.ts dist/
+    
+    - name: Upload build artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: build-files
+        path: dist/
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Download build artifact
+      uses: actions/download-artifact@v4
+      with:
+        name: build-files
+        path: dist/
+    
+    - name: Deploy to server
+      run: |
+        # 这里添加你的部署逻辑
+        # 例如：scp到服务器，或者使用其他部署工具
+        echo "部署到服务器..." 

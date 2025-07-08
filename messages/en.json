@@ -10,13 +10,14 @@
 		"convertSuccess": "Conversion successful! The file has been downloaded automatically",
 		"downloadTip": "If the download did not start automatically, please",
 		"clickHere": "click here",
-		"batchTip": "Batch conversion supported, max 50MB per file",
+		"batchTip": "Max 50MB per file, support JPG, PNG, WEBP",
 		"privacyTip": "Conversion is done on the server to ensure privacy and security",
 		"tabToJpg": "Convert to jpg file",
 		"errorNoFile": "Please choose a file",
 		"errorFileSize": "File size must not exceed 50MB",
 		"errorConvert": "Conversion failed",
-		"errorUpload": "Upload failed"
+		"errorUpload": "Upload failed",
+		"targetFormat": "Target file format"
 	},
 	"Footer": {
 		"help": "Help Center",

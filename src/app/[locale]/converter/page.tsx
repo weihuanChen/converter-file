@@ -9,6 +9,7 @@ export default function ConverterPage() {
     error?: string;
   }>();
   const [isUploading, setIsUploading] = useState(false);
+  const [targetFormat, setTargetFormat] = useState("jpg"); // 默认jpg
   const handleFiles = async (files: FileList | null) => {
     if (!files || files.length === 0) {
       setResult({ error: "please choice file" });
@@ -24,6 +25,7 @@ export default function ConverterPage() {
       }
       const formData = new FormData();
       formData.append("file", file);
+      formData.append("targetFormat", targetFormat); // 新增
       const res = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}/api/converter`,
         {
@@ -41,12 +43,12 @@ export default function ConverterPage() {
       if (data.convertedUrl) {
         const a = document.createElement("a");
         a.href = data.convertedUrl;
-       // 修改下载文件名，移除.converted标记
-      const originalName = file.name.replace(".webp", ".jpg");
-      a.download = `converted_${originalName}`;
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
+        // 修改下载文件名，移除.converted标记
+        const originalName = file.name.replace(".webp", ".jpg");
+        a.download = `converted_${originalName}`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
       }
     } catch (err) {
       setResult({
@@ -79,10 +81,25 @@ export default function ConverterPage() {
           <p className="text-lg text-gray-600">{t("subTitle")}</p>
 
           <div className="w-full max-w-md mt-6">
+            {/* 选择转换格式 */}
+            <label className="block text-sm font-medium text-gray-700">
+              {t("targetFormat")}
+              <span className="text-red-500">*</span>
+              <select
+                className="mt-4 border rounded px-2 py-1"
+                value={targetFormat}
+                onChange={(e) => setTargetFormat(e.target.value)}
+                disabled={isUploading}
+              >
+                <option value="jpg">JPG</option>
+                <option value="png">PNG</option>
+                <option value="webp">WEBP</option>
+              </select>
+            </label>
             <ConverterUpload
               className="border-2 border-dashed border-gray-300 hover:border-indigo-500 transition-colors"
               id="file-uploader"
-              accept="image/webp" // 明确只接受webp
+              accept="image/png,image/jpeg,image/jpg,image/webp"
               onFileChange={handleFiles}
               disabled={isUploading}
             />

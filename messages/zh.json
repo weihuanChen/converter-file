@@ -10,13 +10,14 @@
     "convertSuccess": "转换成功！文件已自动下载",
     "downloadTip": "如果未自动下载，请",
     "clickHere": "点击这里",
-    "batchTip": "支持批量转换，最大50MB/文件",
+    "batchTip": "最大50MB/文件，支持JPG, PNG, WEBP",
     "privacyTip": "转换过程在服务器完成，保障隐私安全",
     "tabToJpg": "转换至jpg文件",
     "errorNoFile": "请选择文件",
     "errorFileSize": "文件大小不能超过50MB",
     "errorConvert": "转换失败",
-    "errorUpload": "上传失败"
+    "errorUpload": "上传失败",
+    "targetFormat": "目标文件格式"
   },
   "Footer": {
     "help": "帮助中心",

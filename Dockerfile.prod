@@ -1,0 +1,41 @@
+# 生产环境Dockerfile - 基于构建产物
+FROM node:20-alpine AS production
+
+# 安装运行时依赖
+RUN apk add --no-cache \
+    vips \
+    dumb-init
+
+# 创建非root用户
+RUN addgroup -g 1001 -S nodejs
+RUN adduser -S nextjs -u 1001
+
+WORKDIR /app
+
+# 复制构建产物
+COPY --chown=nextjs:nodejs dist/ ./
+
+# 只安装生产依赖
+RUN npm ci --only=production && npm cache clean --force
+
+# 创建必要的目录
+RUN mkdir -p public/converted && chown -R nextjs:nodejs public/converted
+
+# 设置环境变量
+ENV NODE_ENV=production
+ENV PORT=3000
+ENV HONO_PORT=3001
+
+# 暴露端口
+EXPOSE 3000 3001
+
+# 切换到非root用户
+USER nextjs
+
+# 健康检查
+HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
+  CMD node -e "require('http').get('http://localhost:3001/api/health', (res) => { process.exit(res.statusCode === 200 ? 0 : 1) })"
+
+# 使用dumb-init启动
+ENTRYPOINT ["dumb-init", "--"]
+CMD ["./start.sh"] 

@@ -7,8 +7,19 @@
     "dev:next": "next dev --turbopack",
     "dev:hono": "NODE_OPTIONS='--import tsx/esm' tsx watch server/hono/app.ts",
     "build": "next build",
+    "build:hono": "tsc --project server/tsconfig.json",
+    "build:all": "npm run build && npm run build:hono",
     "start": "next start",
-    "lint": "next lint"
+    "start:docker": "concurrently \"npm run start:next\" \"npm run start:hono\"",
+    "start:next": "next start -p 3000",
+    "start:hono": "NODE_OPTIONS='--import tsx/esm' tsx server/hono/app.ts",
+    "lint": "next lint",
+    "docker:build": "docker build -t file-converter .",
+    "docker:run": "docker run -p 3000:3000 -p 3001:3001 file-converter",
+    "docker:compose": "docker-compose up -d",
+    "docker:compose:build": "docker-compose up -d --build",
+    "docker:compose:down": "docker-compose down",
+    "docker:build:prod": "docker build --target production -t file-converter:prod ."
   },
   "type": "module",
   "dependencies": {

@@ -1,0 +1,50 @@
+version: '3.8'
+
+services:
+  file-converter:
+    build:
+      context: .
+      target: production
+    container_name: file-converter-app
+    ports:
+      - "3000:3000"  # Next.js前端
+      - "3001:3001"  # Hono后端API
+    environment:
+      - NODE_ENV=production
+      - NEXT_PUBLIC_API_URL=http://localhost:3000
+    volumes:
+      - ./public/converted:/app/public/converted
+      - ./logs:/app/logs
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "node", "-e", "require('http').get('http://localhost:3001/api/health', (res) => { process.exit(res.statusCode === 200 ? 0 : 1) })"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    networks:
+      - file-converter-network
+
+  # 可选：添加Nginx反向代理
+  nginx:
+    image: nginx:alpine
+    container_name: file-converter-nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+      - ./ssl:/etc/nginx/ssl
+    depends_on:
+      - file-converter
+    restart: unless-stopped
+    networks:
+      - file-converter-network
+
+networks:
+  file-converter-network:
+    driver: bridge
+
+volumes:
+  converted-files:
+    driver: local 

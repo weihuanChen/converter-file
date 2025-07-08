@@ -9,16 +9,27 @@ export class ImageConverterService {
 		fs.mkdir(this.outputDir, { recursive: true });
 	}
 	/**
-	 * 将webp转换为jpg
+	 * 通用图片格式转换
 	 * @param fileBuffer 上传文件的buffer
-	 * @returns 转换后的文件路径，相当于public
-	 *
+	 * @param targetFormat 目标格式 jpg/png/webp
+	 * @returns 转换后的文件路径，相对于public
 	 */
-	async webpToJpeg(fileBuffer: Buffer): Promise<string> {
+	async convert(fileBuffer: Buffer, targetFormat: "jpg" | "png" | "webp"): Promise<string> {
 		try {
-			const outputFilename = `${randomUUID()}.jpg`;
+			const ext = targetFormat === "jpg" ? "jpg" : targetFormat;
+			const outputFilename = `${randomUUID()}.${ext}`;
 			const outputPath = path.join(this.outputDir, outputFilename);
-			await sharp(fileBuffer).jpeg({ quality: 80 }).toFile(outputPath);
+			let sharpInstance = sharp(fileBuffer);
+			if (targetFormat === "jpg") {
+				sharpInstance = sharpInstance.jpeg({ quality: 80 });
+			} else if (targetFormat === "png") {
+				sharpInstance = sharpInstance.png({ quality: 80 });
+			} else if (targetFormat === "webp") {
+				sharpInstance = sharpInstance.webp({ quality: 80 });
+			} else {
+				throw new Error("不支持的目标格式");
+			}
+			await sharpInstance.toFile(outputPath);
 			return `/converted/${outputFilename}`;
 		} catch (err) {
 			throw new Error(
